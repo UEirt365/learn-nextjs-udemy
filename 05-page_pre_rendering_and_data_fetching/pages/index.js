@@ -18,6 +18,7 @@ export async function getStaticProps() {
     props: {
       products: jsonData.products,
     },
+    revalidate: 10,
   };
 }
 
