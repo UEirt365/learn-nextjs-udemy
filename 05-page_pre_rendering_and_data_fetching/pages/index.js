@@ -19,6 +19,10 @@ export async function getStaticProps() {
       products: jsonData.products,
     },
     revalidate: 10,
+    // notFound: true,
+    // redirect: {
+    //   destination: "/no-data",
+    // },
   };
 }
 
