@@ -16,11 +16,16 @@ export default function ProductDetail(props) {
   );
 }
 
+function getData() {
+  const filePath = path.join(process.cwd(), "data", "dummy-backend.json");
+  return JSON.parse(fs.readFileSync(filePath));
+}
+
 export async function getStaticProps(context) {
+  const data = await getData();
+
   const { params } = context;
   const productId = params.pid;
-  const filePath = path.join(process.cwd(), "data", "dummy-backend.json");
-  const data = JSON.parse(fs.readFileSync(filePath));
 
   const product = data.products.filter((p) => p.id === productId)[0];
 
@@ -32,8 +37,12 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
+  const data = await getData();
+
+  const ids = data.products.map((product) => product.id);
+  const pathsWithParams = ids.map((id) => ({ params: { pid: id } }));
   return {
-    paths: [{ params: { pid: "p1" } }],
-    fallback: true,
+    paths: pathsWithParams,
+    fallback: false,
   };
 }
