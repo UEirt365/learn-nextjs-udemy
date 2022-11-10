@@ -3,7 +3,11 @@ import path from "path";
 
 export default function ProductDetail(props) {
   const { loadedProduct } = props;
-  console.log({ loadedProduct });
+
+  if (!loadedProduct) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <>
       <h1>{loadedProduct.title}</h1>
@@ -15,7 +19,6 @@ export default function ProductDetail(props) {
 export async function getStaticProps(context) {
   const { params } = context;
   const productId = params.pid;
-  console.log({ productId });
   const filePath = path.join(process.cwd(), "data", "dummy-backend.json");
   const data = JSON.parse(fs.readFileSync(filePath));
 
@@ -30,11 +33,7 @@ export async function getStaticProps(context) {
 
 export async function getStaticPaths() {
   return {
-    paths: [
-      { params: { pid: "p1" } },
-      { params: { pid: "p2" } },
-      { params: { pid: "p3" } },
-    ],
-    fallback: false,
+    paths: [{ params: { pid: "p1" } }],
+    fallback: true,
   };
 }
