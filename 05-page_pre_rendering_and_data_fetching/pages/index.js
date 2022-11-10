@@ -1,11 +1,16 @@
 import path from "path";
 import fs from "fs";
+import Link from "next/link";
 
 function HomePage(props) {
   return (
     <ul>
       {props.products.map((product) => {
-        return <li key={product.id}>{product.title}</li>;
+        return (
+          <li key={product.id}>
+            <Link href={`/${product.id}`}>{product.title}</Link>
+          </li>
+        );
       })}
     </ul>
   );
