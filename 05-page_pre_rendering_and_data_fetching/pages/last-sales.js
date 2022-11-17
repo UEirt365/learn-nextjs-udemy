@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
-export default function LastSales() {
-  const [sales, setSales] = useState();
+export default function LastSales(props) {
+  const [sales, setSales] = useState(props.sales);
 
   const { data, error } = useSWR(
     "https://fir-app-demo-55852-default-rtdb.asia-southeast1.firebasedatabase.app/sales.json",
@@ -26,7 +26,7 @@ export default function LastSales() {
   if (error) {
     return <p>No data found!</p>;
   }
-  if (!data || !sales) {
+  if (!data && !sales) {
     return <p>Loading...</p>;
   }
 
@@ -37,4 +37,25 @@ export default function LastSales() {
       })}
     </ul>
   );
+}
+
+export async function getStaticProps() {
+  const response = await fetch(
+    "https://fir-app-demo-55852-default-rtdb.asia-southeast1.firebasedatabase.app/sales.json"
+  );
+  const data = await response.json();
+  let transformedSales = [];
+  for (const key in data) {
+    transformedSales.push({
+      id: key,
+      username: data[key].username,
+      volume: data[key].volume,
+    });
+  }
+
+  return {
+    props: {
+      sales: transformedSales,
+    },
+  };
 }
