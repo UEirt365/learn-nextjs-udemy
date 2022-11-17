@@ -1,9 +1,14 @@
-import { getFeaturedEvents } from '../helpers/api-util';
-import EventList from '../components/events/event-list';
+import Head from "next/head";
+import EventList from "../components/events/event-list";
+import { getFeaturedEvents } from "../helpers/api-util";
 
 function HomePage(props) {
   return (
     <div>
+      <Head>
+        <title>NextJS events</title>
+        <meta description="description" content="Event description" />
+      </Head>
       <EventList items={props.events} />
     </div>
   );
@@ -14,10 +19,10 @@ export async function getStaticProps() {
 
   return {
     props: {
-      events: featuredEvents
+      events: featuredEvents,
     },
-    revalidate: 1800
-  }
+    revalidate: 1800,
+  };
 }
 
 export default HomePage;
