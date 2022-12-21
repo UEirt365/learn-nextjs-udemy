@@ -1,3 +1,4 @@
+const feedbacks = [];
 export default function handler(req, res) {
   if (req.method === "POST") {
     const email = req.body.email;
@@ -8,9 +9,9 @@ export default function handler(req, res) {
       email,
       feedback,
     };
-    console.log(newFeedback);
+    feedbacks.push(newFeedback);
     res.status(201).json({ message: "success", feedback: newFeedback });
   } else {
-    res.status(200).json({ message: "success" });
+    res.status(200).json(feedbacks);
   }
 }

@@ -1,8 +1,10 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 function HomePage() {
   const emailRef = useRef();
   const feedbackRef = useRef();
+
+  const [feedbacks, setFeedbacks] = useState([]);
 
   const submitFormHandler = (e) => {
     e.preventDefault();
@@ -19,6 +21,14 @@ function HomePage() {
     });
   };
 
+  const loadFeedbackHandler = (e) => {
+    fetch("/api/feedback", {
+      method: "GET",
+    })
+      .then((feedbacks) => feedbacks.json())
+      .then((feedbacks) => setFeedbacks(feedbacks));
+  };
+
   return (
     <div>
       <h1>The Home Page</h1>
@@ -33,6 +43,13 @@ function HomePage() {
         </div>
         <button type="submit">Submit Feedback</button>
       </form>
+      <br />
+      <button onClick={loadFeedbackHandler}>Load Feedback</button>
+      <ul>
+        {feedbacks.map((feedback) => {
+          return <li key={feedback.id}>{feedback.feedback}</li>;
+        })}
+      </ul>
     </div>
   );
 }
