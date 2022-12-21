@@ -10,7 +10,13 @@ function HomePage() {
     const email = emailRef.current.value;
     const feedback = feedbackRef.current.value;
 
-    console.log({ email, feedback });
+    fetch("/api/feedback", {
+      method: "POST",
+      body: JSON.stringify({ email: email, feedback: feedback }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   };
 
   return (
