@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-export default NotificationContext = createContext({
+const NotificationContext = createContext({
   notification: null,
   showNotification: function (notificationData) {},
   hideNotification: function () {},
@@ -29,3 +29,5 @@ export const NotificationContextProvider = (props) => {
     </NotificationContext.Provider>
   );
 };
+
+export default NotificationContext;
